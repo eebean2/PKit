@@ -1,2 +1,2 @@
 # PKit
-Payment Processing for iOS and OS X
+Payment Processing Simplified for iOS and OS X
