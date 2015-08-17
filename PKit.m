@@ -45,7 +45,7 @@
 
 @synthesize productIdentifiers;
 @synthesize canMakePurchases;
-@synthesize showCancelError;
+@synthesize showCancelError = YES;
 @synthesize showInvalidPaymentError;
 
 - (id _Nonnull)initWithIDs:(NSArray * _Nonnull)IDArray {
