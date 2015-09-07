@@ -33,10 +33,20 @@
 
 #import "PKit.h"
 
+typedef NS_ENUM(int, UserCancelError) {
+    kShowCancelError = 0,
+    kDoNotShowCancelError = 1
+};
 
+typedef NS_ENUM(int, UserPaymentError) {
+    kShowPaymentError = 0,
+    kDoNotShowPaymentError = 1
+};
 
 @interface PKit () {
     NSString *purchaseWithID;
+    NSInteger cancelError;
+    NSInteger paymentError;
 }
 
 @end
@@ -45,14 +55,24 @@
 
 @synthesize productIdentifiers;
 @synthesize canMakePurchases;
-@synthesize showCancelError = YES;
+@synthesize showCancelError;
 @synthesize showInvalidPaymentError;
+@synthesize noErrorMode;
 
 - (id _Nonnull)initWithIDs:(NSArray * _Nonnull)IDArray {
     self = [super init];
     if (self) {
         productIdentifiers = IDArray;
-        showCancelError = YES;
+        if (showCancelError) {
+            cancelError = kShowCancelError;
+        } else {
+            cancelError = kDoNotShowCancelError;
+        }
+        if (showInvalidPaymentError) {
+            paymentError = kShowPaymentError;
+        } else {
+            paymentError = kDoNotShowPaymentError;
+        }
         showInvalidPaymentError = YES;
         [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     }
@@ -63,8 +83,16 @@
     self = [super init];
     if (self) {
         productIdentifiers = [NSArray arrayWithObject:IDString];
-        showCancelError = YES;
-        showInvalidPaymentError = YES;
+        if (showCancelError) {
+            cancelError = kShowCancelError;
+        } else {
+            cancelError = kDoNotShowCancelError;
+        }
+        if (showInvalidPaymentError) {
+            paymentError = kShowPaymentError;
+        } else {
+            paymentError = kDoNotShowPaymentError;
+        }
         [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     }
     return self;
@@ -77,7 +105,9 @@
         request.delegate = self;
         [request start];
     } else {
-        NSLog(@"Error 1001: See Error Documentaion W/ Error Code");
+        if (!noErrorMode) {
+            NSLog(@"Error 1001: See Error Documentaion W/ Error Code");
+        }
     }
 }
 
@@ -90,7 +120,9 @@
             }
         }
     } else {
-        NSLog(@"Error 1002: See Error Documentation W/ Error Code");
+        if (!noErrorMode) {
+            NSLog(@"Error 1002: See Error Documentation W/ Error Code");
+        }
     }
 }
 
@@ -121,19 +153,25 @@
                 break;
             case SKPaymentTransactionStateFailed:
                 if (transaction.error.code == SKErrorPaymentCancelled) {
-                    if (showCancelError) {
+                    if (cancelError == kShowCancelError && !noErrorMode) {
                         NSLog(@"Error 1003: See Error Documentation W/ Error Code");
                     }
                 } else if (transaction.error.code == SKErrorPaymentInvalid) {
-                    if (showInvalidPaymentError) {
+                    if (paymentError == kShowPaymentError && !noErrorMode) {
                         NSLog(@"Error 1004: See Error Documentation W/ Error Code");
                     }
                 } else if (transaction.error.code == SKErrorPaymentNotAllowed) {
-                    NSLog(@"Error 1001: See Error Documentation W/ Error Code");
+                    if (!noErrorMode) {
+                        NSLog(@"Error 1001: See Error Documentation W/ Error Code");
+                    }
                 } else if (transaction.error.code == SKErrorClientInvalid) {
-                    NSLog(@"Error 1001: See Error Documentation W/ Error Code");
+                    if (!noErrorMode) {
+                        NSLog(@"Error 1001: See Error Documentation W/ Error Code");
+                    }
                 } else {
-                    NSLog(@"Error 1005: See Error Documentation W/ Error Code");
+                    if (!noErrorMode) {
+                        NSLog(@"Error 1005: See Error Documentation W/ Error Code");
+                    }
                 }
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 break;

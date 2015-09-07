@@ -36,14 +36,64 @@
 
 @interface PKit : NSObject <SKProductsRequestDelegate, SKPaymentTransactionObserver>
 
+/*!
+ * @discussion A list of product identifiers provided during init. 
+ * This property is readonly.
+ * @return Array of product identiers set during init.
+ */
 @property (readonly)  NSArray * _Nonnull productIdentifiers;
+/*!
+ * @discussion Checks to see if the user is able to make a purchase
+ * @return TRUE if user can make a purchase, otherwise FALSE.
+ */
 @property (readonly) BOOL canMakePurchases;
+/*!
+ * @discussion Enable this if you would like to know when the user
+ * cancels a purchase.
+ * @see See ReadMe.md to see how to set this property.
+ */
 @property BOOL showCancelError;
+/*!
+ * @discussion Enable this if you would like to know when a purchase
+ * fails due to invaild payment.
+ * @see See ReadMe.md to see how to set this property.
+ */
 @property BOOL showInvalidPaymentError;
+/*!
+ * @discussion Enable this if you do NOT want to receive errors.
+ * @see See ReadMe.md to see how to set this property.
+ */
+@property BOOL noErrorMode;
 
+/// @brief Traditional init unavilable, use initWithIDs or initWithID
 - (id _Nonnull)init __unavailable;
+/*!
+ * @discussion Creates a instance of Purchase Kit (PKit) and initiates 
+ * it with the product identifiers for your app located found in 
+ * iTunesConnect under your app name. This is a nonnull class.
+ * @param IDArray The array of product identifers for your project.
+ * @warning This is a NONNULL method, setting it with an empty array 
+ * or tricking it with a "false" array will cause it to error and WILL 
+ * crash your app.
+ * @return Initiates an instance of PKit to be used.
+ */
 - (id _Nonnull)initWithIDs:(NSArray * _Nonnull)IDArray;
+/*!
+ * @discussion Creates a instance of Purchase Kit (PKit) and initiates
+ * it with the product identifiers for your app located found in
+ * iTunesConnect under your app name. This is a nonnull class.
+ * @param IDString - A product identifer expressed as a string.
+ * @warning This is a NONNULL method, setting it with an empty array
+ * or tricking it with a "false" array will cause it to error and WILL
+ * crash your app.
+ * @return Initiates an instance of PKit to be used.
+ */
 - (id _Nonnull)initWithID:(NSString * _Nonnull)IDString;
+/*!
+ * @discussion The purchase method, call this to
+ * @param purchaseID This is the product identifer for the object being purchased. This paramater is nonnull.
+ * @warning This method will error and crash if you give it a null string.
+ */
 - (void)makePurchaseWithID:(nonnull NSString *)purchaseID;
 
 @end
