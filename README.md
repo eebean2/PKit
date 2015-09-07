@@ -22,9 +22,9 @@ This is my first project on GitHub, and although it's simple, it's something I h
 
 4) With your ID's (if only one, go to 4a) go to the file you are planning on making the purchases in and set `NSArray *productArray = [@"array", @"array", @"array", nil];` where array is the product ID's.
 
-4a) If you only have one ID, you need to set it to a `NSString` instead of `NSArray` because you will init PKit with a string. In the file you plan to make the purchases from, set `NSString *productID = @"someID";` where someID is your single ID. Procede to 4a instead of 5.
+4a) If you only have one ID, you need to set it to a `NSString` instead of `NSArray` because you will init PKit with a string. In the file you plan to make the purchases from, set `NSString *productID = @"someID";` where someID is your single ID. Procede to 5a instead of 5.
 
-5) In the same file, and call `PKit *pkit = [[Pkit alloc] initWithIDs:productArray];`. Where productArray is the array from step 3.
+5) In the same file, and call `PKit *pkit = [[Pkit alloc] initWithIDs:productArray];`. Where productArray is the array from step 4.
 
 5a) In the same file, and call `PKit *pkit = [[Pkit alloc] initWithID:productID];`. Where productArray is the array from step 4a.
 
