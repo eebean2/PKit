@@ -2,6 +2,7 @@
  
  PKit.h
  PurchaseKit
+ Version 1.0
  
 */
 
