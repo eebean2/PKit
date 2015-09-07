@@ -16,17 +16,19 @@ This is my first project on GitHub, and although it's simple, it's something I h
 
 1) Copy "PKit.m" and "PKit.h" to your project files. (Sorry, this is the only way for now)
 
-2) Get your Product Identifers from iTunesConnect. If you do not know what they are, or how to locate them, go to this artical from Apple: https://developer.apple.com/library/ios/qa/qa1329/_index.html
+2) In your "Linked Frameworks", include "StoreKit.framework".
 
-3) With your ID's (if only one, go to 3a) go to the file you are planning on making the purchases in and set `NSArray *productArray = [@"array", @"array", @"array", nil];` where array is the product ID's.
+3) Get your Product Identifers from iTunesConnect. If you do not know what they are, or how to locate them, go to this artical from Apple: https://developer.apple.com/library/ios/qa/qa1329/_index.html
 
-3a) If you only have one ID, you need to set it to a `NSString` instead of `NSArray` because you will init PKit with a string. In the file you plan to make the purchases from, set `NSString *productID = @"someID";` where someID is your single ID. Procede to 4a instead of 4.
+4) With your ID's (if only one, go to 4a) go to the file you are planning on making the purchases in and set `NSArray *productArray = [@"array", @"array", @"array", nil];` where array is the product ID's.
 
-4) In the same file, and call `PKit *pkit = [[Pkit alloc] initWithIDs:productArray];`. Where productArray is the array from step 3.
+4a) If you only have one ID, you need to set it to a `NSString` instead of `NSArray` because you will init PKit with a string. In the file you plan to make the purchases from, set `NSString *productID = @"someID";` where someID is your single ID. Procede to 4a instead of 5.
 
-4a) In the same file, and call `PKit *pkit = [[Pkit alloc] initWithID:productID];`. Where productArray is the array from step 3a.
+5) In the same file, and call `PKit *pkit = [[Pkit alloc] initWithIDs:productArray];`. Where productArray is the array from step 3.
 
-5) In a method (could be a IBAction, or a seperate void, up to you), call `[pkit makePurchaseWithID:@"someID"];` where someID is an individual ID for a product being purchased. This method will initate a purchase for the selected product either return sucess or a detialed error of what went wrong.
+5a) In the same file, and call `PKit *pkit = [[Pkit alloc] initWithID:productID];`. Where productArray is the array from step 4a.
+
+6) In a method (could be a IBAction, or a seperate void, up to you), call `[pkit makePurchaseWithID:@"someID"];` where someID is an individual ID for a product being purchased. This method will initate a purchase for the selected product either return sucess or a detialed error of what went wrong.
 
 # Errors and Options
 
