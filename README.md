@@ -1,12 +1,13 @@
 # PKit - Payment Kit
 Payment Processing Simplified for iOS and OS X
 
-* Version: 1.0
+* Version: 1.1
 
 # Notes for this Version
 
 * This is the first release, it will be buggy (if it's not, then I'll be shocked)
-* This is updated for iOS 9 and OS X 10.11 as of 9/7/15
+* This is updated for iOS 9 and OS X 10.11 as of 9/8/15
+* noErrorMode, showCancelError, and showInvalidPaymentError are now accessed with a sharedinstance! Please see Errors and Options for more detials.
 
 #How to use
 
@@ -32,22 +33,25 @@ Most errors are layed out in Error Description.md. Simply open the document in X
 
 * NoErrorMode: Should you desire to run 100% silent, you can choose so!
 
-In your app delegate, under `applicationDidFinishLaunching` add the following:
+In your app delegate, under add the followingot the top:
 ```
-    PKit *kit = [PKit alloc];
-    kit.noErrorMode = NO;
+    + (void)initialize {
+        [PKit sharedInstance].noErrorMode = Yes;
+    }
 ```
 
-* If you would like to see when the user cancels a purchase, in appdelegate, as with NoErrorMode, add the following:
+* If you would like to see when the user cancels a purchase, in appdelegate, as with NoErrorMode, add the following (the initialize is not required twice):
 ```
-    PKit *kit = [PKit alloc];
-    kit.showCancelError = NO;
+    + (void)initialize {
+        [PKit sharedInstance].showCancelError = Yes;
+    }
 ```
 
 * If you would like to see when the user fails to make a purhase due to invalid payment, set to follwoing:
 ```
-    PKit *kit = [PKit alloc];
-    kit.showInvalidPaymentError = NO;
+    + (void)initialize {
+        [PKit sharedInstance].showInvalidPaymentError = YES;
+    }
 ```
 
 * Although PKit already checks to see if the user can make purchases, you can manually check by typing `[pkit canMakePurchases];' where pkit is whatever you named the class in your app.

@@ -6,6 +6,7 @@
 */
 
 /*
+ 
  The MIT License (MIT)
  
  Copyright (c) 2015 Little Man Apps
@@ -27,6 +28,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE.
+
 */
 
 #import "PKit.h"
@@ -57,7 +59,16 @@ typedef NS_ENUM(int, UserPaymentError) {
 @synthesize showInvalidPaymentError;
 @synthesize noErrorMode;
 
-- (id _Nonnull)initWithIDs:(NSArray * _Nonnull)IDArray {
++ (instancetype)sharedInstance {
+    static PKit *sharedInstance = nil;
+    if (sharedInstance == nil) {
+        sharedInstance = [(PKit *)[self alloc] initWithID:@"VARINIT"];
+    }
+    return sharedInstance;
+}
+
+
+- (id)initWithIDs:(NSArray *)IDArray {
     self = [super init];
     if (self) {
         productIdentifiers = IDArray;
@@ -77,26 +88,30 @@ typedef NS_ENUM(int, UserPaymentError) {
     return self;
 }
 
-- (id _Nonnull)initWithID:(NSString * _Nonnull)IDString {
+- (id)initWithID:(NSString *)IDString {
     self = [super init];
     if (self) {
-        productIdentifiers = [NSArray arrayWithObject:IDString];
-        if (showCancelError) {
-            cancelError = kShowCancelError;
+        if ([IDString isEqualToString: @"VARINIT"]) {
+            
         } else {
-            cancelError = kDoNotShowCancelError;
+            productIdentifiers = [NSArray arrayWithObject:IDString];
+            if (showCancelError) {
+                cancelError = kShowCancelError;
+            } else {
+                cancelError = kDoNotShowCancelError;
+            }
+            if (showInvalidPaymentError) {
+                paymentError = kShowPaymentError;
+            } else {
+                paymentError = kDoNotShowPaymentError;
+            }
+            [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
         }
-        if (showInvalidPaymentError) {
-            paymentError = kShowPaymentError;
-        } else {
-            paymentError = kDoNotShowPaymentError;
-        }
-        [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     }
     return self;
 }
 
-- (void)makePurchaseWithID:(NSString * _Nonnull)purchaseID {
+- (void)makePurchaseWithID:(NSString *)purchaseID {
     if (canMakePurchases) {
         purchaseWithID = purchaseID;
         SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithArray:productIdentifiers]];

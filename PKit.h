@@ -2,11 +2,11 @@
  
  PKit.h
  PurchaseKit
- Version 1.0
  
 */
 
 /*
+ 
  The MIT License (MIT)
  
  Copyright (c) 2015 Little Man Apps
@@ -28,6 +28,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE.
+ 
 */
 
 #import <StoreKit/StoreKit.h>
@@ -65,7 +66,7 @@
 @property BOOL noErrorMode;
 
 /// @brief Traditional init unavilable, use initWithIDs or initWithID
-- (id _Nonnull)init __unavailable;
+- (PKit * _Nonnull)init __unavailable;
 /*!
  * @discussion Creates a instance of Purchase Kit (PKit) and initiates 
  * it with the product identifiers for your app located found in 
@@ -76,7 +77,7 @@
  * crash your app.
  * @return Initiates an instance of PKit to be used.
  */
-- (id _Nonnull)initWithIDs:(NSArray * _Nonnull)IDArray;
+- (PKit * _Nonnull)initWithIDs:(NSArray * _Nonnull)IDArray NS_DESIGNATED_INITIALIZER;
 /*!
  * @discussion Creates a instance of Purchase Kit (PKit) and initiates
  * it with the product identifiers for your app located found in
@@ -87,12 +88,20 @@
  * crash your app.
  * @return Initiates an instance of PKit to be used.
  */
-- (id _Nonnull)initWithID:(NSString * _Nonnull)IDString;
+- (PKit * _Nonnull)initWithID:(NSString * _Nonnull)IDString NS_DESIGNATED_INITIALIZER;
+/*!
+ * @discussion Creates an empty instance of Purchase Kit (PKit) and
+ * initiates it for use in accessing variables only.
+ * @warning Using this init for any reason other then variables will
+ * cause crashes, errors, and your app to not work correctly.
+ * @return Initiates an instance of PKit to be used.
+ */
++ (instancetype)sharedInstance;
 /*!
  * @discussion The purchase method, call this to
  * @param purchaseID This is the product identifer for the object being purchased. This paramater is nonnull.
  * @warning This method will error and crash if you give it a null string.
  */
-- (void)makePurchaseWithID:(nonnull NSString *)purchaseID;
+- (void)makePurchaseWithID:(NSString * _Nonnull)purchaseID;
 
 @end
