@@ -8,10 +8,6 @@ Payment Processing Simplified for iOS and OS X
 * This is the first release, it will be buggy (if it's not, then I'll be shocked)
 * This is updated for iOS 9 and OS X 10.11 as of 9/7/15
 
-# Welcome!
-
-This is my first project on GitHub, and although it's simple, it's something I hope will make things simpler.
-
 #How to use
 
 1) Copy "PKit.m" and "PKit.h" to your project files. (Sorry, this is the only way for now)
