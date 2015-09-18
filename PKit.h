@@ -43,6 +43,11 @@
  */
 @property (readonly)  NSArray * _Nonnull productIdentifiers;
 /*!
+ * @discussion A list of products avalible for purchase
+ * @return Array of SKProducts
+ */
+@property (readonly) NSArray * _Nonnull productList;
+/*!
  * @discussion Checks to see if the user is able to make a purchase
  * @return TRUE if user can make a purchase, otherwise FALSE.
  */
@@ -96,12 +101,16 @@
  * cause crashes, errors, and your app to not work correctly.
  * @return Initiates an instance of PKit to be used.
  */
-+ (instancetype)sharedInstance;
++ (nonnull instancetype)sharedInstance;
 /*!
- * @discussion The purchase method, call this to
+ * @discussion The purchase method, call this to make the initial purchase
  * @param purchaseID This is the product identifer for the object being purchased. This paramater is nonnull.
  * @warning This method will error and crash if you give it a null string.
  */
 - (void)makePurchaseWithID:(NSString * _Nonnull)purchaseID;
+/*!
+ * @discussion Restores all previous purchased items.
+ */
+- (void)restorePurchases;
 
 @end

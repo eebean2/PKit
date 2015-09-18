@@ -1,7 +1,7 @@
 # PKit - Payment Kit
 Payment Processing Simplified for iOS and OS X
 
-* Version: 1.1
+* Version: 1.2
 
 # Notes for this Version
 

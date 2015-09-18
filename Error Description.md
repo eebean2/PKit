@@ -1,5 +1,5 @@
 PKit
-Version 1.1
+Version 1.2
 
 1001: Parental Controls
 
@@ -63,3 +63,13 @@ Version 1.1
     Note:
             This is a VERY rare error usually caused by mistyped code, system outage, or bad system settings. Try running your app on another computer?
 
+1006: Deferred Payment
+
+    Problem:
+            No problem, user's download/payment/something is deffered. Will continue/fail/finish when possible.
+
+    Solution:
+            Do nothing! Really, it's that simple!
+
+    Note:
+            Yes really, do nothing. I'm serious...

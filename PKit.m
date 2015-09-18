@@ -54,6 +54,7 @@ typedef NS_ENUM(int, UserPaymentError) {
 @implementation PKit
 
 @synthesize productIdentifiers;
+@synthesize productList;
 @synthesize canMakePurchases;
 @synthesize showCancelError;
 @synthesize showInvalidPaymentError;
@@ -84,6 +85,10 @@ typedef NS_ENUM(int, UserPaymentError) {
         }
         showInvalidPaymentError = YES;
         [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+        
+        SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithArray:productIdentifiers]];
+        request.delegate = self;
+        [request start];
     }
     return self;
 }
@@ -107,6 +112,9 @@ typedef NS_ENUM(int, UserPaymentError) {
             }
             [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
         }
+        SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithArray:productIdentifiers]];
+        request.delegate = self;
+        [request start];
     }
     return self;
 }
@@ -114,9 +122,6 @@ typedef NS_ENUM(int, UserPaymentError) {
 - (void)makePurchaseWithID:(NSString *)purchaseID {
     if (canMakePurchases) {
         purchaseWithID = purchaseID;
-        SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithArray:productIdentifiers]];
-        request.delegate = self;
-        [request start];
     } else {
         if (!noErrorMode) {
             NSLog(@"Error 1001: See Error Documentaion W/ Error Code");
@@ -127,9 +132,13 @@ typedef NS_ENUM(int, UserPaymentError) {
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
     NSInteger count = response.products.count;
     if (count > 0) {
-        for (SKProduct *product in response.products) {
-            if ([product.productIdentifier isEqualToString:purchaseWithID]) {
-                [self purchase:product];
+        productList = response.products;
+        NSLog(@"Response List = %@", response.products);
+        if (purchaseWithID != nil) {
+            for (SKProduct *product in response.products) {
+                if ([product.productIdentifier isEqualToString:purchaseWithID]) {
+                    [self purchase:product];
+                }
             }
         }
     } else {
@@ -157,6 +166,11 @@ typedef NS_ENUM(int, UserPaymentError) {
     for (SKPaymentTransaction *transaction in transactions) {
         switch (transaction.transactionState) {
             case SKPaymentTransactionStatePurchasing:
+                break;
+            case SKPaymentTransactionStateDeferred:
+                if (!noErrorMode) {
+                    NSLog(@"Error 1006: See Error Documentation W/ Error Code");
+                }
                 break;
             case SKPaymentTransactionStatePurchased:
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
