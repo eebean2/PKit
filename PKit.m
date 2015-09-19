@@ -167,11 +167,13 @@ typedef NS_ENUM(int, UserPaymentError) {
         switch (transaction.transactionState) {
             case SKPaymentTransactionStatePurchasing:
                 break;
+#if TARGET_OS_IPHONE
             case SKPaymentTransactionStateDeferred:
                 if (!noErrorMode) {
                     NSLog(@"Error 1006: See Error Documentation W/ Error Code");
                 }
                 break;
+#endif
             case SKPaymentTransactionStatePurchased:
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 break;
