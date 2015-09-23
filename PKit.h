@@ -1,7 +1,7 @@
 /*
  
  PKit.h
- PurchaseKit
+ PurchaseKit 2.0
  
 */
 
@@ -112,5 +112,17 @@
  * @discussion Restores all previous purchased items.
  */
 - (void)restorePurchases;
+/*!
+ * @discussion Determines if a product was previously purchased or not. Best used in custom UITableViews.
+ * @param product SKProduct in question if purchased (use productPurchsedWithID: id using a string)
+ * @return BOOL returns a yes if purchased, otherwise no
+ */
+- (BOOL)productPurchasedWithProduct:(SKProduct * _Nonnull)product;
+/*!
+ * @discussion Determines if a product was previously purchased or not. Best used in custom UITableViews.
+ * @param product SKProduct in question if purchased (use productPurchsedWithID: id using a string)
+ * @return BOOL returns a yes if purchased, otherwise no
+ */
+- (BOOL)productPurchasedWithID:(NSString * _Nonnull)productID;
 
 @end

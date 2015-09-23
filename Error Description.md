@@ -1,13 +1,15 @@
 PKit
-Version 1.2
+Version 2.0
 
-1001: Parental Controls
+1001: Parental Controls or Simulator Attempt
 
     Problem:
-            Parental Controls are turned on
+            Parental Controls are turned on, or you attempted to purchase an IAP item on the simulator.
 
     Solution:
-            Add check for parental controls. Such as:
+            If your trying to purchase on the sim, you can not do this, sorry. You MUST build on a device.
+
+            If perental check fail, add a check for parental controls. Such as:
                 PKit *kit = [Pkit alloc] init...];
                 if (kit.canMakePurchases) {
                     ...your code here...

@@ -1,7 +1,7 @@
 /*
 
  PKit.m
- PurchaseKit
+ PurchaseKit 2.0
  
 */
 
@@ -47,6 +47,7 @@ typedef NS_ENUM(int, UserPaymentError) {
     NSString *purchaseWithID;
     NSInteger cancelError;
     NSInteger paymentError;
+    NSMutableSet *purchasedProductsIDs;
 }
 
 @end
@@ -133,7 +134,6 @@ typedef NS_ENUM(int, UserPaymentError) {
     NSInteger count = response.products.count;
     if (count > 0) {
         productList = response.products;
-        NSLog(@"Response List = %@", response.products);
         if (purchaseWithID != nil) {
             for (SKProduct *product in response.products) {
                 if ([product.productIdentifier isEqualToString:purchaseWithID]) {
@@ -175,10 +175,13 @@ typedef NS_ENUM(int, UserPaymentError) {
                 break;
 #endif
             case SKPaymentTransactionStatePurchased:
+                [self provideContentForProductIdentifier:transaction.payment.productIdentifier];
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 break;
             case SKPaymentTransactionStateRestored:
+                [self provideContentForProductIdentifier:transaction.originalTransaction.payment.productIdentifier];
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                [self restore];
                 break;
             case SKPaymentTransactionStateFailed:
                 if (transaction.error.code == SKErrorPaymentCancelled) {
@@ -206,6 +209,30 @@ typedef NS_ENUM(int, UserPaymentError) {
                 break;
         }
     }
+}
+
+- (void)provideContentForProductIdentifier:(NSString *)productIdentifier {
+    [purchasedProductsIDs addObject:productIdentifier];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:productIdentifier];
+}
+
+- (BOOL)productPurchasedWithProduct:(SKProduct *)product {
+    NSString *productID = product.productIdentifier;
+    return [purchasedProductsIDs containsObject:productID];
+}
+
+- (BOOL)productPurchasedWithID:(NSString *)productID {
+    return [purchasedProductsIDs containsObject:productID];
+}
+
+#warning Type what needs to be restored below!
+
+- (void)restore {
+    // Example
+    NSUserDefaults * local = [NSUserDefaults standardUserDefaults];
+    [local setBool:YES forKey:@"com.FunkyTime.removeads"];
+    // Support Funky Time and download at
+    // https://itunes.apple.com/us/app/funky-time/id915200129?mt=8
 }
 
 @end

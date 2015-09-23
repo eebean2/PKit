@@ -1,13 +1,13 @@
 # PKit - Payment Kit
 Payment Processing Simplified for iOS and OS X
 
-* Version: 1.2
+* Version: 2.0
 
 # Notes for this Version
 
-* This is the first release, it will be buggy (if it's not, then I'll be shocked)
-* This is updated for iOS 9 and OS X 10.11 as of 9/8/15
-* noErrorMode, showCancelError, and showInvalidPaymentError are now accessed with a sharedinstance! Please see Errors and Options for more detials.
+* Fixed a bug that caused restore to not work (see step 7)
+* Added an exception in Error Doc for the simulator
+* Added product lookup for perviously purchased product (will have to iniate restore at least once for proper logging)
 
 #How to use
 
@@ -26,6 +26,8 @@ Payment Processing Simplified for iOS and OS X
 5a) In the same file, and call `PKit *pkit = [[Pkit alloc] initWithID:productID];`. Where productArray is the array from step 4a.
 
 6) In a method (could be a IBAction, or a seperate void, up to you), call `[pkit makePurchaseWithID:@"someID"];` where someID is an individual ID for a product being purchased. This method will initate a purchase for the selected product either return sucess or a detialed error of what went wrong.
+
+7) In the bottom of PKit.m, input any items that need to be restored in `- (void)restore { }` and delete the warning message. IF you do not do this step, you will not restore previous purchases.
 
 # Errors and Options
 
